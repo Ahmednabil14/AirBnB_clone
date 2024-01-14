@@ -25,7 +25,10 @@ class HBNBCommand(cmd.Cmd):
         """
         return True
 
-    do_EOF = do_quit
+    def do_EOF(self, arg):
+        """EOF signal to exit the program."""
+        print("")
+        return True
 
     def emptyline(self):
         """
@@ -141,32 +144,39 @@ class HBNBCommand(cmd.Cmd):
         except Exception:
             print("** class name missing **")
             return
-        try:
-            user_id = args[1]
-        except IndexError:
-            print("** instance id missing **")
-            return
-        try:
-            attribute_name = args[2]
-        except IndexError:
-            print("** attribute name missing **")
-            return
-        try:
-            attribute_value = args[3]
-        except IndexError:
-            print("** value missing **")
-            return
         if class_name in globals() and (
                 class_name == "BaseModel" or issubclass(
                     eval(class_name), BaseModel)):
             for key in FileStorage.all(self).keys():
                 instance_key = key.split(".")
                 instance_found = False
+                try:
+                    user_id = args[1]
+                except IndexError:
+                    print("** instance id missing **")
+                    return
                 if instance_key[1] == user_id:
                     instance_found = True
                     break
             if instance_found is True:
                 instance = FileStorage.all(self)[key]
+                try:
+                    attribute_name = args[2]
+                except IndexError:
+                    print("** attribute name missing **")
+                    return
+                try:
+                    attribute_value = args[3]
+                except IndexError:
+                    print("** value missing **")
+                    return
+                if args[3][0] == "\"":
+                    for index in range(4, len(args)):
+                        if args[index][-1] == "\"":
+                            attribute_value += " " + args[index]
+                            break
+                        else:
+                            attribute_value += " " + args[index]
                 value_type = type(instance.__dict__[attribute_name])
                 instance.__dict__[attribute_name] = value_type(
                     eval(attribute_value))
@@ -177,6 +187,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def do_count(self, class_name):
+        """ function that count number of instance"""
         x = 0
         for key in FileStorage.all(self).items():
             if class_name in globals() and (
