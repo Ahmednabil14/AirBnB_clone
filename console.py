@@ -175,8 +175,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
         else:
             print("** class doesn't exist **")
-    
-    
+
     def do_count(self, class_name):
         x = 0
         for key in FileStorage.all(self).items():
