@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" test BaseModel class"""
+""" test FileSorage class"""
 
 import unittest
 import json
@@ -11,11 +11,14 @@ import os
 
 
 class TestFileStorage(unittest.TestCase):
+    """ test file storage class"""
     def setUp(self):
+        """test setup"""
         FileStorage.__objects = {}
         FileStorage.__file_path = "file.json"
 
     def test_all(self):
+        """ test all"""
         dicObjects = FileStorage.all(self)
         self.assertIsInstance(dicObjects, dict)
 
@@ -33,7 +36,7 @@ class TestFileStorage(unittest.TestCase):
 
 
 class TestReloadMethod(unittest.TestCase):
-
+    """test reload method"""
     def test_reload_method(self):
         """Call the reload method and assert in one go"""
         bs = BaseModel()
