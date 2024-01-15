@@ -98,6 +98,7 @@ class HBNBCommand(cmd.Cmd):
                     key = "{}.{}".format(class_name, id)
                     if key in FileStorage.all(self).keys():
                         del FileStorage.all(self)[key]
+                        FileStorage.save(self)
                     else:
                         print("** no instance found **")
                 else:
@@ -177,9 +178,12 @@ class HBNBCommand(cmd.Cmd):
                             break
                         else:
                             attribute_value += " " + args[index]
-                value_type = type(instance.__dict__[attribute_name])
-                instance.__dict__[attribute_name] = value_type(
-                    eval(attribute_value))
+                if attribute_name in instance.__dict__.keys():
+                    value_type = type(instance.__dict__[attribute_name])
+                    instance.__dict__[attribute_name] = value_type(
+                        eval(attribute_value))
+                else:
+                    instance.__dict__[attribute_name] = eval(attribute_value)
                 instance.save()
             else:
                 print("** no instance found **")

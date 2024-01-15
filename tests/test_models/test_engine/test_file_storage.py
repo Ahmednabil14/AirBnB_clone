@@ -34,6 +34,19 @@ class TestFileStorage(unittest.TestCase):
         self.assertIn(key, objects_dict)
         self.assertIs(objects_dict[key], obj)
 
+    def test_file_path(self):
+        """ test file_path exist"""
+        self.assertEqual(str, type(FileStorage._FileStorage__file_path))
+
+    def test_save(self):
+        """ test save()"""
+        bm = BaseModel()
+        models.storage.new(bm)
+        models.storage.save()
+        with open("file.json", "r") as f:
+            text = f.read()
+        self.assertIn("BaseModel." + bm.id, text)
+
 
 class TestReloadMethod(unittest.TestCase):
     """test reload method"""
