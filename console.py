@@ -220,7 +220,7 @@ class HBNBCommand(cmd.Cmd):
                     pass
                 return "{} {} {} {} {}".format(
                     method, class_name,
-                    isinstance_id, attribute_name, attribute_val)
+                    eval(isinstance_id), eval(attribute_name), (attribute_val))
             return "{} {} {}".format(method, class_name, other_arguments)
         else:
             return argument
