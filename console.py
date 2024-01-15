@@ -218,9 +218,10 @@ class HBNBCommand(cmd.Cmd):
                     attribute_val = args[2]
                 except IndexError:
                     pass
-                return f"{method} {class_name} {isinstance_id}\
-                      {attribute_name} {attribute_val}"
-            return f"{method} {class_name} {other_arguments}"
+                return "{} {} {} {} {}".format(
+                    method, class_name,
+                    isinstance_id, attribute_name, attribute_val)
+            return "{} {} {}".format(method, class_name, other_arguments)
         else:
             return argument
 
