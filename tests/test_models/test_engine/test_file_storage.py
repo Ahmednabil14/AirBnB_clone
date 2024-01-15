@@ -50,7 +50,7 @@ class TestFileStorage(unittest.TestCase):
 
 class TestReloadMethod(unittest.TestCase):
     """test reload method"""
-    def test_reload_method(self):
+    def test_reload(self):
         """Call the reload method and assert in one go"""
         bs = BaseModel()
         models.storage.new(bs)

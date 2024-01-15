@@ -206,6 +206,20 @@ class HBNBCommand(cmd.Cmd):
         match = re.match(r"([a-zA-Z_]\w*)\.([a-zA-Z_]\w*)\((.*)\)", argument)
         if match:
             class_name, method, other_arguments = match.groups()
+            if "," in other_arguments:
+                isinstance_id = ""
+                attribute_name = ""
+                attribute_val = ""
+                new_argument = other_arguments.replace(",", "")
+                args = new_argument.split()
+                try:
+                    isinstance_id = args[0]
+                    attribute_name = args[1]
+                    attribute_val = args[2]
+                except IndexError:
+                    pass
+                return f"{method} {class_name} {isinstance_id}\
+                      {attribute_name} {attribute_val}"
             return f"{method} {class_name} {other_arguments}"
         else:
             return argument
