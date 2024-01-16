@@ -45,15 +45,12 @@ class FileStorage:
         FileStorage.__objects[key] = obj
 
     def save(self):
-        """
-        Saves the current state of objects to a JSON file.
-        """
-        serializeObj = {}
-        for key, obj in FileStorage.__objects.items():
-            serializeObj[key] = obj.to_dict() if isinstance(
-                obj, BaseModel) else obj
-        with open(FileStorage.__file_path, 'w') as file:
-            json.dump(serializeObj, file)
+        """ saves in json format to a file """
+        my_obj_dict = {}
+        for key in FileStorage.__objects:
+            my_obj_dict[key] = FileStorage.__objects[key].to_dict()
+        with open(FileStorage.__file_path, 'w') as file_path:
+            json.dump(my_obj_dict, file_path)
 
     def reload(self):
         """Deserializes the JSON file to __objects if it exists;
