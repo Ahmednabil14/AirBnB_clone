@@ -11,6 +11,7 @@ from models.engine.file_storage import FileStorage
 import json
 import cmd
 import re
+import ast
 
 
 class HBNBCommand(cmd.Cmd):
@@ -202,28 +203,25 @@ class HBNBCommand(cmd.Cmd):
 
     def precmd(self, argument):
         """Executed just before the command line is interpreted."""
-        # Using regular expression to match patterns like "Class.method(...)"
         match = re.match(r"([a-zA-Z_]\w*)\.([a-zA-Z_]\w*)\((.*)\)", argument)
         if match:
             class_name, method, other_arguments = match.groups()
-            if "," in other_arguments:
-                isinstance_id = ""
-                attribute_name = ""
-                attribute_val = ""
-                new_argument = other_arguments.replace(",", "")
-                args = new_argument.split()
-                try:
-                    isinstance_id = args[0]
-                    attribute_name = args[1]
-                    attribute_val = args[2]
-                except IndexError:
-                    pass
-                return "{} {} {} {} {}".format(
-                    method, class_name,
-                    eval(isinstance_id), eval(attribute_name), (attribute_val))
-            return "{} {} {}".format(method, class_name, other_arguments)
-        else:
-            return argument
+
+            # Safer alternative to eval
+            isinstance_id, attribute_name, attribute_val = "", "", ""
+            try:
+                args = ast.literal_eval(other_arguments)
+                isinstance_id, attribute_name, attribute_val = args[:3]
+            except (ValueError, SyntaxError, IndexError):
+                pass
+
+            # Adjust formatting and handle attribute_val properly
+            if isinstance_id and attribute_name and attribute_val:
+                return f"{method} {class_name} {isinstance_id} {attribute_name} {attribute_val}"
+            else:
+                return f"{method} {class_name} {other_arguments}"
+
+        return argument
 
 
 if __name__ == '__main__':
