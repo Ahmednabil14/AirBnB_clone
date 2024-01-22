@@ -47,9 +47,6 @@ class TestFileStorage(unittest.TestCase):
             text = f.read()
         self.assertIn("BaseModel." + bm.id, text)
 
-
-class TestReloadMethod(unittest.TestCase):
-    """test reload method"""
     def test_reload(self):
         """Call the reload method and assert in one go"""
         bs = BaseModel()

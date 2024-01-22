@@ -11,7 +11,7 @@ from models.review import Review
 from models.state import State
 
 
-class FileStorage():
+class FileStorage:
     """
     A simple file-based storage class using JSON to store and retrieve objects.
     """
@@ -54,7 +54,6 @@ class FileStorage():
                 obj, BaseModel) else obj
         with open(FileStorage.__file_path, 'w') as file:
             json.dump(serializeObj, file)
-
 
     def reload(self):
         """Deserializes the JSON file to __objects if it exists;
